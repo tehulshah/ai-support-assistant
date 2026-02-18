@@ -67,7 +67,7 @@ if st.button("Generate Response"):
 
     reply = generate_reply(user_input, category, priority)
 
-    st.write("### Predicted Category:", category)
-    st.write("### Predicted Priority:", priority)
+    # st.write("### Predicted Category:", category)
+    # st.write("### Predicted Priority:", priority)
     st.write("### Suggested Reply:")
     st.success(reply)
