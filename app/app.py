@@ -1,13 +1,15 @@
 import streamlit as st
 import pickle
 import pandas as pd
+import os
 
-# Load models
-model = pickle.load(open("category_model.pkl", "rb"))
-priority_model = pickle.load(open("priority_model.pkl", "rb"))
-vectorizer = pickle.load(open("vectorizer.pkl", "rb"))
+BASE_DIR = os.path.dirname(__file__)
 
-templates = pd.read_csv("reply_templates.csv")
+model = pickle.load(open(os.path.join(BASE_DIR, "category_model.pkl"), "rb"))
+priority_model = pickle.load(open(os.path.join(BASE_DIR, "priority_model.pkl"), "rb"))
+vectorizer = pickle.load(open(os.path.join(BASE_DIR, "vectorizer.pkl"), "rb"))
+
+templates = pd.read_csv(os.path.join(BASE_DIR, "reply_templates.csv"))
 
 def generate_reply(category, priority):
     matches = templates[
