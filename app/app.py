@@ -7,7 +7,7 @@ model = pickle.load(open("app/category_model.pkl", "rb"))
 priority_model = pickle.load(open("app/priority_model.pkl", "rb"))
 vectorizer = pickle.load(open("app/vectorizer.pkl", "rb"))
 
-templates = pd.read_csv("../data/reply_templates.csv")
+templates = pd.read_csv("/data/reply_templates.csv")
 
 def generate_reply(category, priority):
     matches = templates[
