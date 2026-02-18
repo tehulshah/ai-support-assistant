@@ -1,3 +1,4 @@
+from openai import OpenAI
 import streamlit as st
 import pickle
 import pandas as pd
@@ -11,16 +12,30 @@ vectorizer = pickle.load(open(os.path.join(BASE_DIR, "vectorizer.pkl"), "rb"))
 
 templates = pd.read_csv(os.path.join(BASE_DIR, "reply_templates.csv"))
 
-def generate_reply(category, priority):
-    matches = templates[
-        (templates["category"] == category) &
-        (templates["priority"] == priority)
-    ]
+client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 
-    if len(matches) == 0:
-        return "Thank you for contacting support."
+def generate_reply(message, category, priority):
 
-    return matches.sample(1)["reply"].values[0]
+    prompt = f"""
+You are a professional customer support assistant.
+
+Ticket category: {category}
+Ticket priority: {priority}
+
+Customer message:
+{message}
+
+Generate a polite, helpful support reply.
+Keep it concise and professional.
+"""
+
+    response = client.chat.completions.create(
+        model="gpt-4.1-mini",
+        messages=[{"role": "user", "content": prompt}],
+        temperature=0.5,
+    )
+
+    return response.choices[0].message.content
 
 st.title("AI Customer Support Assistant")
 
@@ -32,7 +47,7 @@ if st.button("Generate Response"):
     category = model.predict(vec)[0]
     priority = priority_model.predict(vec)[0]
 
-    reply = generate_reply(category, priority)
+    reply = generate_reply(user_input, category, priority)
 
     st.write("### Predicted Category:", category)
     st.write("### Predicted Priority:", priority)
