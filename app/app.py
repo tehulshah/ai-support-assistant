@@ -1,8 +1,8 @@
-from openai import OpenAI
 import streamlit as st
 import pickle
 import pandas as pd
 import os
+import random
 
 BASE_DIR = os.path.dirname(__file__)
 
@@ -12,30 +12,48 @@ vectorizer = pickle.load(open(os.path.join(BASE_DIR, "vectorizer.pkl"), "rb"))
 
 templates = pd.read_csv(os.path.join(BASE_DIR, "reply_templates.csv"))
 
-client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 
 def generate_reply(message, category, priority):
 
-    prompt = f"""
-You are a professional customer support assistant.
+    greeting = random.choice([
+        "Thank you for contacting us.",
+        "We appreciate you reaching out.",
+        "Thanks for bringing this to our attention."
+    ])
 
-Ticket category: {category}
-Ticket priority: {priority}
+    urgency_line = {
+        "High": "We understand this is urgent and are prioritizing your request.",
+        "Medium": "Our support team is reviewing your request.",
+        "Low": "Our team will review this shortly."
+    }
 
-Customer message:
-{message}
+    category_actions = {
+        "Billing": "Our billing team is checking the transaction details.",
+        "Technical": "Our technical team is investigating the issue.",
+        "Account": "Our account support team is reviewing your account.",
+        "General Inquiry": "We are reviewing your inquiry.",
+        "Fraud": "Our security team is reviewing the case."
+    }
 
-Generate a polite, helpful support reply.
-Keep it concise and professional.
+    closing = random.choice([
+        "We will keep you updated.",
+        "You will receive updates shortly.",
+        "We appreciate your patience."
+    ])
+
+    reply = f"""
+{greeting}
+
+Regarding your concern: "{message}"
+
+{urgency_line.get(priority, "")}
+{category_actions.get(category, "Our team is looking into this issue.")}
+
+{closing}
 """
 
-    response = client.chat.completions.create(
-        model="gpt-4.1-mini",
-        messages=[{"role": "user", "content": prompt}],
-        temperature=0.5,
-    )
+    return reply
 
-    return response.choices[0].message.content
 
 st.title("AI Customer Support Assistant")
 
