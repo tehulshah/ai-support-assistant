@@ -1,0 +1,11 @@
+category,priority,reply
+Billing,High,We sincerely apologize for the billing issue. Our billing team is reviewing your case urgently and will resolve it shortly.
+Billing,Medium,Our billing team is reviewing your request and will update you soon.
+Billing,Low,Thank you for contacting billing support. We will look into your request shortly.
+Technical,High,Our technical team is actively working to resolve your issue as a priority.
+Technical,Medium,We are investigating the technical issue and will update you soon.
+Technical,Low,Thank you for reporting the issue. Our technical team will review it shortly.
+Account,High,We understand the urgency of your account issue and are resolving it as quickly as possible.
+Account,Medium,Our support team is reviewing your account concern and will respond soon.
+Account,Low,Thank you for contacting us regarding your account. We will assist you shortly.
+General Inquiry,Low,Thank you for contacting support. We will provide the requested information soon.
