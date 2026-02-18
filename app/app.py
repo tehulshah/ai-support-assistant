@@ -3,9 +3,9 @@ import pickle
 import pandas as pd
 
 # Load models
-model = pickle.load(open("category_model.pkl", "rb"))
-priority_model = pickle.load(open("priority_model.pkl", "rb"))
-vectorizer = pickle.load(open("vectorizer.pkl", "rb"))
+model = pickle.load(open("app/category_model.pkl", "rb"))
+priority_model = pickle.load(open("app/priority_model.pkl", "rb"))
+vectorizer = pickle.load(open("app/vectorizer.pkl", "rb"))
 
 templates = pd.read_csv("../data/reply_templates.csv")
 
